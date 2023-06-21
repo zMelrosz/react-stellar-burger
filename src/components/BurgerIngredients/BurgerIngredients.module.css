@@ -15,7 +15,7 @@
     overflow: scroll; */
     border: 1px solid blueviolet;
     max-width: 31.25%;
-    max-height: 912px;
+    max-height: calc(912px - 40px);
     overflow: scroll;
     overflow-x: hidden;
 }

@@ -8,12 +8,13 @@ export default class BurgerConstructor extends React.Component {
         return(
 
             <>
-                <div className={`${styles.burgerConstructor} mt-25 custom-scroll`}>
+                <div className={`${styles.burgerConstructor} pt-25 custom-scroll`}>
                     {this.props.data.map((ingredient) => {
                         return <ConstructorIngredientCard image={ingredient.image} name={ingredient.name} price={ingredient.price} />
                     })}
+                    <Price  amount={612} />
                 </div>
-                <div><Price  amount={612} /></div>
+                
             </>
         )
     }

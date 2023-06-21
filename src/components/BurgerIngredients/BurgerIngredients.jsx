@@ -10,7 +10,7 @@ export default class BurgerIngredients extends React.Component {
     return (
       <>
         <div
-          className={`${burgerIngredients.burgerIngredients}  custom-scroll mr-10`}
+          className={`${burgerIngredients.burgerIngredients}  custom-scroll mr-10 mt-10`}
         >
           <h2 className={`text text_type_main-large`}>Соберите бургер</h2>
           <div className={`${burgerIngredients.ingredientTypeArea} mt-5`}>

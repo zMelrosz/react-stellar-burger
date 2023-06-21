@@ -9,11 +9,10 @@ function App() {
   return (
     <>
       <AppHeader />
-      <section className={`${appStyles.body} mt-5`}>
+      <body className={`${appStyles.body}`}>
         <BurgerIngredients />
         <BurgerConstructor data={data} />
-      </section>
-      
+      </body>
     </>
   );
 }

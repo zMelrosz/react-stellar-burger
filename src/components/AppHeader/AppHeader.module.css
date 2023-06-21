@@ -21,7 +21,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  min-height: 56px;
+  max-height: 24px;
   border: solid 1px blue;
   gap: 8px;
   color: #8585AD;
