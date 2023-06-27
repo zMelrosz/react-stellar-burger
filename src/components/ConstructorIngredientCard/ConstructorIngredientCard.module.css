@@ -1,6 +1,5 @@
 .cardContainer {
     display: flex;
-    border: 1px solid  blue;
     position: relative;
     max-height: 80px;
 }
@@ -23,7 +22,6 @@
     position: absolute;
     left: 0;
     align-self: center;
-    border: 1px double coral;
 }
 
 .cardPicture {

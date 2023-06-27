@@ -1,7 +1,14 @@
 .burgerConstructor {
     width: 31.25%;
-    border:  1px solid peru;
     max-height: 812px;
     overflow: scroll;
     overflow-x: hidden;
+}
+
+.orderInfo {
+    display: flex;
+    width: 568px;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 40px;
 }

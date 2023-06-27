@@ -7,7 +7,6 @@
 
 .container {
   display: flex;
-  border: solid 1px white;
 }
 
 .logo {
@@ -22,7 +21,6 @@
   flex-direction: row;
   align-items: center;
   max-height: 24px;
-  border: solid 1px blue;
   gap: 8px;
   color: #8585AD;
 }

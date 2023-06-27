@@ -14,7 +14,7 @@ export default class IngredientsContainer extends React.Component {
             <div className={styles.container/*burgerIngredients.area*/}>
                     {this.props.data.map((ingredient) => {
                         if (ingredient.type === this.state.type) {
-                            return <IngredientCard image={ingredient.image} price={ingredient.price} name={ingredient.name} />
+                            return <IngredientCard image={ingredient.image} price={ingredient.price} name={ingredient.name} key={ingredient._id}/>
                         } return null;
                     })}
             </div>
