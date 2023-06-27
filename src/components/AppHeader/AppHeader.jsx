@@ -13,22 +13,22 @@ export default class AppHeader extends React.Component {
       <>
         <div className={headerStyles.header}>
           <div className={headerStyles.container}>
-            <nav 
-              className={`${headerStyles.navBlock} text text_type_main-small pl-5 pr-5 mr-2 mb-4 mt-4`}
+            <a 
+              className={`${headerStyles.navBlock} ${headerStyles.navBlockWhite} text text_type_main-small pl-5 pr-5 mr-2 mb-4 mt-4` } href="#"
             >
               <BurgerIcon />
               Конструктор
-            </nav>
-            <nav className={`${headerStyles.navBlock} text text_type_main-small pl-5 pr-5 mb-4 mt-4`}>
+            </a>
+            <a className={`${headerStyles.navBlock} text text_type_main-small pl-5 pr-5 mb-4 mt-4`} href="#">
               <ListIcon type="secondary" />
               Лента заказов
-            </nav>
+            </a>
           </div>
           <div className={headerStyles.logo}><Logo /></div>
-          <nav className={`${headerStyles.navBlock} text text_type_main-small pl-5 pr-5 mb-4 mt-4`}>
+          <a className={`${headerStyles.navBlock} text text_type_main-small pl-5 pr-5 mb-4 mt-4`} href="#">
             <ProfileIcon type="secondary" />
             Личный кабинет
-          </nav>
+          </a>
         </div>
       </>
     );

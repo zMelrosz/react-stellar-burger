@@ -3,6 +3,12 @@
     grid-template-columns: 1fr 1fr 1fr;
 }
 
+.ingredientTypes {
+    max-height: 726px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
 .area {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -14,7 +20,4 @@
     /* max-height: 912px;
     overflow: scroll; */
     max-width: 31.25%;
-    max-height: calc(912px - 40px);
-    overflow: scroll;
-    overflow-x: hidden;
 }

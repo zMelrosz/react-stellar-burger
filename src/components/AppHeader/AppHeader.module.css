@@ -23,8 +23,9 @@
   max-height: 24px;
   gap: 8px;
   color: #8585AD;
+  text-decoration: none;
 }
 
-.navBlock:hover {
+.navBlockWhite {
   color: #F2F2F3;
 }
