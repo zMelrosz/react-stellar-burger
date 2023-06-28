@@ -1,0 +1,26 @@
+.burgerConstructor {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 31.25%;
+    max-height: 812px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.orderInfo {
+    display: flex;
+    width: 568px;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 40px;
+}
+
+.constructorIngredientsContainer {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    overflow-x: hidden;
+    gap: 16px;
+    max-height: 464px;
+}

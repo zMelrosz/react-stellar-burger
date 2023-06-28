@@ -5,3 +5,9 @@
   background-color: #131316;
   color: #f2f2f3;
 }
+
+.body {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+}

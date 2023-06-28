@@ -1,0 +1,23 @@
+.ingredientTypeArea {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.ingredientTypes {
+    max-height: 726px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+.area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 32px;
+    column-gap: 24px;
+}
+
+.burgerIngredients {
+    /* max-height: 912px;
+    overflow: scroll; */
+    max-width: 31.25%;
+}
