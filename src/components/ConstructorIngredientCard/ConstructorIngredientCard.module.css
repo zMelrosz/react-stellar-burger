@@ -1,34 +1,12 @@
 .cardContainer {
     display: flex;
-    position: relative;
     max-height: 80px;
-}
-
-.cardContainer:last-of-type {
-    margin-bottom: 0;
-}
-
-.card {
-    border: 1px dotted ghostwhite;
-    display: flex;
-    width: 100%;
-    flex-direction: row;
-    background-color: #1C1C21;
-    border-radius: 40px;
+    width: 568px;
     align-items: center;
+    gap: 8px;
 }
 
 .dragContainer {
-    position: absolute;
-    left: 0;
-    align-self: center;
+    width: 24px;
+    height: 24px;
 }
-
-.cardPicture {
-    max-width: 80px;
-}
-
-.cardName {
-    width: 254px;
-}
-

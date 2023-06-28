@@ -3,7 +3,6 @@ import IngredientTypeBtn from "../IngredientTypeBtn/IngredientTypeBtn";
 import burgerIngredients from "./BurgerIngredients.module.css";
 import IngredientsContainer from "../IngredientsContainer/IngredientsContainer";
 import { data } from "../../utils/data";
-import Price from "../Price/Price";
 
 export default class BurgerIngredients extends React.Component {
   render() {
