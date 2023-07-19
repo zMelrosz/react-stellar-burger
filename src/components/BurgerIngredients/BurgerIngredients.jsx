@@ -4,11 +4,9 @@ import burgerIngredients from "./BurgerIngredients.module.css";
 import IngredientsContainer from "../IngredientsContainer/IngredientsContainer";
 import { data } from "../../utils/data";
 
-export default class BurgerIngredients extends React.Component {
-  render() {
-    return (
-      <>
-        <div className={`${burgerIngredients.burgerIngredients}  mr-10 mt-10`}>
+const BurgerIngredients = () => {
+  return (
+    <div className={`${burgerIngredients.burgerIngredients}  mr-10 mt-10`}>
           <h2 className={`text text_type_main-large`}>Соберите бургер</h2>
           <div className={`${burgerIngredients.ingredientTypeArea} mt-5`}>
             <IngredientTypeBtn name="Булки" />
@@ -24,7 +22,6 @@ export default class BurgerIngredients extends React.Component {
             <IngredientsContainer data={data} type="main" />
           </div>
         </div>
-      </>
-    );
-  }
+  )
 }
+export default BurgerIngredients;

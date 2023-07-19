@@ -7,11 +7,9 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from "./AppHeader.module.css";
 
-export default class AppHeader extends React.Component {
-  render() {
-    return (
-      <>
-        <div className={headerStyles.header}>
+const AppHeader = () => {
+  return(
+    <div className={headerStyles.header}>
           <div className={headerStyles.container}>
             <a 
               className={`${headerStyles.navBlock} ${headerStyles.navBlockWhite} text text_type_main-small pl-5 pr-5 mr-2 mb-4 mt-4` } href="#"
@@ -30,7 +28,7 @@ export default class AppHeader extends React.Component {
             Личный кабинет
           </a>
         </div>
-      </>
-    );
-  }
+  )
 }
+
+export default AppHeader;
