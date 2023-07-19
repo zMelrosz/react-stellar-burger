@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./ConstructorIngredientCard.module.css";
 import {
   DragIcon,
@@ -6,12 +7,12 @@ import {
 import PropTypes from 'prop-types';
 
 
-const ConstructorIngredientCard = (props) => {
+const ConstructorIngredientCard = ({ingredientName, isLocked, text, thumbnail, price, type}) => {
   return (
     
     <div className={`${styles.cardContainer}`}>
-      {props.isLocked ? <div className={styles.dragContainer}></div> : <div className={styles.dragContainer}><DragIcon type="primary"/></div>  }
-        <ConstructorElement text={props.text} thumbnail={props.thumbnail} price={props.price} type={props.type} isLocked={props.isLocked} />
+      {isLocked ? <div className={styles.dragContainer}></div> : <div className={styles.dragContainer}><DragIcon type="primary"/></div>  }
+        <ConstructorElement text={text} thumbnail={thumbnail} price={price} type={type} isLocked={isLocked} />
     </div>
   );
 };

@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import IngredientCard from "../IngredientCard/IngredientCard";
 import styles from './IngredientsContainer.module.css';
 
-const IngredientsContainer = (props) => {
+const IngredientsContainer = ({type, ingredients}) => {
     const [state, setState] = React.useState({
-        type: props.type,
-    })
+        type,
+        ingredients,
+    });
 
     return(
         <div className={styles.container}>
-                {props.data.map((ingredient) => {
+                {ingredients.map((ingredient) => {
                     if (ingredient.type === state.type) {
                         return <IngredientCard image={ingredient.image} price={ingredient.price} name={ingredient.name} key={ingredient._id} />
                     }
@@ -22,7 +23,7 @@ const IngredientsContainer = (props) => {
 
 IngredientsContainer.propTypes = {
     type: PropTypes.string.isRequired,
-    data: PropTypes.arrayOf(
+    ingredients: PropTypes.arrayOf(
         PropTypes.shape({
             image: PropTypes.string,
             price: PropTypes.number,

@@ -2,22 +2,22 @@ import React from "react";
 import styles from "./BurgerConstructor.module.css";
 import Price from "../Price/Price";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { data } from "../../utils/data";
 import ConstructorIngredientCard from "../ConstructorIngredientCard/ConstructorIngredientCard";
 
-const BurgerConstructor = () => {
+const BurgerConstructor = ({ingredients}) => {
+  console.log(ingredients);
   return (
     <div className={`${styles.burgerConstructor} pt-25 custom-scroll`}>
     <ConstructorIngredientCard
       text={
-        data.find((item) => item.name === "Краторная булка N-200i").name +
+        ingredients.find((item) => item.name === "Краторная булка N-200i").name +
         " (верх)"
       }
       thumbnail={
-        data.find((item) => item.name === "Краторная булка N-200i").image
+        ingredients.find((item) => item.name === "Краторная булка N-200i").image
       }
       price={
-        data.find((item) => item.name === "Краторная булка N-200i").price
+        ingredients.find((item) => item.name === "Краторная булка N-200i").price
       }
       isLocked={true}
       type="top"
@@ -28,17 +28,17 @@ const BurgerConstructor = () => {
     >
       <ConstructorIngredientCard
         text={
-          data.find(
+          ingredients.find(
             (item) => item.name === "Соус традиционный галактический"
           ).name
         }
         thumbnail={
-          data.find(
+          ingredients.find(
             (item) => item.name === "Соус традиционный галактический"
           ).image
         }
         price={
-          data.find(
+          ingredients.find(
             (item) => item.name === "Соус традиционный галактический"
           ).price
         }
@@ -46,34 +46,34 @@ const BurgerConstructor = () => {
 
       <ConstructorIngredientCard
         text={
-          data.find((item) => item.name === "Плоды Фалленианского дерева")
+          ingredients.find((item) => item.name === "Плоды Фалленианского дерева")
             .name
         }
         thumbnail={
-          data.find((item) => item.name === "Плоды Фалленианского дерева")
+          ingredients.find((item) => item.name === "Плоды Фалленианского дерева")
             .image
         }
         price={
-          data.find((item) => item.name === "Плоды Фалленианского дерева")
+          ingredients.find((item) => item.name === "Плоды Фалленианского дерева")
             .price
         }
       />
 
       <ConstructorIngredientCard
         text={
-          data.find(
+          ingredients.find(
             (item) =>
               item.name === "Мясо бессмертных моллюсков Protostomia"
           ).name
         }
         thumbnail={
-          data.find(
+          ingredients.find(
             (item) =>
               item.name === "Мясо бессмертных моллюсков Protostomia"
           ).image
         }
         price={
-          data.find(
+          ingredients.find(
             (item) =>
               item.name === "Мясо бессмертных моллюсков Protostomia"
           ).price
@@ -82,17 +82,17 @@ const BurgerConstructor = () => {
 
       <ConstructorIngredientCard
         text={
-          data.find(
+          ingredients.find(
             (item) => item.name === "Хрустящие минеральные кольца"
           ).name
         }
         thumbnail={
-          data.find(
+          ingredients.find(
             (item) => item.name === "Хрустящие минеральные кольца"
           ).image
         }
         price={
-          data.find(
+          ingredients.find(
             (item) => item.name === "Хрустящие минеральные кольца"
           ).price
         }
@@ -100,17 +100,17 @@ const BurgerConstructor = () => {
 
       <ConstructorIngredientCard
         text={
-          data.find(
+          ingredients.find(
             (item) => item.name === "Хрустящие минеральные кольца"
           ).name
         }
         thumbnail={
-          data.find(
+          ingredients.find(
             (item) => item.name === "Хрустящие минеральные кольца"
           ).image
         }
         price={
-          data.find(
+          ingredients.find(
             (item) => item.name === "Хрустящие минеральные кольца"
           ).price
         }
@@ -119,14 +119,14 @@ const BurgerConstructor = () => {
 
     <ConstructorIngredientCard
       text={
-        data.find((item) => item.name === "Краторная булка N-200i").name +
+        ingredients.find((item) => item.name === "Краторная булка N-200i").name +
         " (низ)"
       }
       thumbnail={
-        data.find((item) => item.name === "Краторная булка N-200i").image
+        ingredients.find((item) => item.name === "Краторная булка N-200i").image
       }
       price={
-        data.find((item) => item.name === "Краторная булка N-200i").price
+        ingredients.find((item) => item.name === "Краторная булка N-200i").price
       }
       isLocked={true}
       type="bottom"
