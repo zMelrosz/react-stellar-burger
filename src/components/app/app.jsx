@@ -3,6 +3,7 @@ import appStyles from '../app/app.module.css'
 import AppHeader from '../AppHeader/AppHeader'
 import BurgerConstructor from '../BurgerConstructor/BurgerConstructor';
 import BurgerIngredients from '../BurgerIngredients/BurgerIngredients';
+import Modal from "../Modal/Modal";
 
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
         <BurgerIngredients ingredients={ingredients} />
         <BurgerConstructor ingredients={ingredients} />
       </section>
+      <Modal />
     </>
   );
 }

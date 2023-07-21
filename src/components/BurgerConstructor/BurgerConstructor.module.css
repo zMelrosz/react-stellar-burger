@@ -15,12 +15,3 @@
     align-items: center;
     gap: 40px;
 }
-
-.constructorIngredientsContainer {
-    display: flex;
-    flex-direction: column;
-    overflow: auto;
-    overflow-x: hidden;
-    gap: 16px;
-    max-height: 464px;
-}
