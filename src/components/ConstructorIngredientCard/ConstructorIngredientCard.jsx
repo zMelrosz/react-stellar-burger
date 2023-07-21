@@ -6,23 +6,32 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from 'prop-types';
 
+ const ConstructorIngredientCard = ({ingredient, isTop, isBottom}) => {
 
-const ConstructorIngredientCard = ({ingredientName, isLocked, text, thumbnail, price, type}) => {
+  if (isTop) {
+    return (
+      <div className={`${styles.cardContainer}`}>
+        <div className={styles.dragContainer}></div>
+        <ConstructorElement text={ingredient.name + " (верх)"} thumbnail={ingredient.image} price={ingredient.price} type={"top"} isLocked={true} />
+      </div>
+    )
+  }
+
+  if (isBottom) {
+    return (
+      <div className={`${styles.cardContainer}`}>
+        <div className={styles.dragContainer}></div>
+        <ConstructorElement text={ingredient.name + " (низ)"} thumbnail={ingredient.image} price={ingredient.price} type={"bottom"} isLocked={true} />
+      </div>
+    )
+  }
+
   return (
-    
     <div className={`${styles.cardContainer}`}>
-      {isLocked ? <div className={styles.dragContainer}></div> : <div className={styles.dragContainer}><DragIcon type="primary"/></div>  }
-        <ConstructorElement text={text} thumbnail={thumbnail} price={price} type={type} isLocked={isLocked} />
+      <div className={styles.dragContainer}><DragIcon type="primary"/></div>
+      <ConstructorElement text={ingredient.name} thumbnail={ingredient.image} price={ingredient.price} type={ingredient.type} isLocked={false} />
     </div>
-  );
-};
-
-ConstructorIngredientCard.propTypes = {
-  isLocked: PropTypes.bool,
-  text: PropTypes.string,
-  thumbnail: PropTypes.string,
-  price: PropTypes.number,
-  type: PropTypes.string
-};
+  )
+}; 
 
 export default ConstructorIngredientCard;
