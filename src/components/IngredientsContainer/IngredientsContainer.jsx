@@ -1,37 +1,76 @@
 import React from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import IngredientCard from "../IngredientCard/IngredientCard";
-import styles from './IngredientsContainer.module.css';
+import styles from "./IngredientsContainer.module.css";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import Modal from "../Modal/Modal";
 
-const IngredientsContainer = ({type, ingredients}) => {
-    const [state, setState] = React.useState({
-        type,
-        ingredients,
+const IngredientsContainer = ({ type, ingredients }) => {
+
+    const [popup, setPopup] = React.useState({
+        isOpen: false,
+        ingredient: null
     });
 
-    return(
-        <div className={styles.container}>
-                {ingredients.map((ingredient) => {
-                    if (ingredient.type === state.type) {
-                        return <IngredientCard image={ingredient.image} price={ingredient.price} name={ingredient.name} key={ingredient._id} />
-                    }
-                    return null;
-                })}
-            </div>
-    )
-}
+    const closePopup = () => {
+        setPopup({
+            ...popup,
+            isOpen: false,
+        })
+    }
+
+  const handleIngredientClick = (ingredientInfo) => {
+    setPopup({
+        isOpen: true,
+        ingredient: ingredientInfo,
+    })
+  };
+
+  return (
+    <div className={styles.container}>
+      {ingredients.map((ingredient) => {
+        if (ingredient.type === type) {
+          return (
+            <IngredientCard
+              ingredientInfo={ingredient}
+              key={ingredient._id}
+              onIngredientClick={handleIngredientClick}
+            />
+          );
+        }
+        return null;
+      })}
+
+      { popup.isOpen ? (
+        <Modal 
+        content={
+            <IngredientDetails 
+                calories={popup.ingredient.calories}
+                proteins={popup.ingredient.proteins}
+                fats={popup.ingredient.fat}
+                carbs={popup.ingredient.carbohydrates}
+                imageLarge={popup.ingredient.image_large}
+                closePopup={closePopup}
+            />
+        }
+        isOpen={popup.isOpen} 
+    />    
+      ) : null } 
+    </div>
+  );
+};
 
 IngredientsContainer.propTypes = {
-    type: PropTypes.string.isRequired,
-    ingredients: PropTypes.arrayOf(
-        PropTypes.shape({
-            image: PropTypes.string,
-            price: PropTypes.number,
-            name: PropTypes.string,
-            type: PropTypes.string,
-            _id: PropTypes.string
-        })
-    ).isRequired
+  type: PropTypes.string.isRequired,
+  ingredients: PropTypes.arrayOf(
+    PropTypes.shape({
+      image: PropTypes.string,
+      price: PropTypes.number,
+      name: PropTypes.string,
+      type: PropTypes.string,
+      _id: PropTypes.string,
+    })
+  ).isRequired,
 };
 
 export default IngredientsContainer;

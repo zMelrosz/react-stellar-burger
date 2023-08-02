@@ -5,7 +5,6 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorIngredientCard from "../ConstructorIngredientCard/ConstructorIngredientCard";
 
 const BurgerConstructor = ({ ingredients }) => {
-  console.log(ingredients);
   return (
     <div className={`${styles.burgerConstructor} pt-25 custom-scroll`}>
       <ConstructorIngredientCard ingredient={ingredients.find(ingredient => ingredient.name === "Краторная булка N-200i")} isTop={true} />
