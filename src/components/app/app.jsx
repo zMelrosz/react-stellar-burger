@@ -3,13 +3,43 @@ import appStyles from "../app/app.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import Modal from "../Modal/Modal";
-import OrderDetails from "../OrderDetails/OrderDetails";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import Modal from "../Modal/Modal";
 
 function App() {
   const [ingredients, setIngredients] = React.useState([]);
   const [isLoading, setLoading] = React.useState(true);
+  
+  const [modalState, setModalState] = React.useState({
+    isOpen: false,
+    content: null,
+  });
+
+  const closeModal = () => {
+    setModalState({
+      isOpen: false,
+      content: null
+    });
+  }
+
+  const openModal = (ingredient) => {
+    console.log(ingredient);
+    const content = (
+      <IngredientDetails
+        calories={ingredient.calories}
+        proteins={ingredient.proteins}
+        fats={ingredient.fat}
+        carbs={ingredient.carbohydrates}
+        imageLarge={ingredient.image_large}
+        closePopup={closeModal}
+      />
+    );
+    setModalState({
+      isOpen: true,
+      content: content,
+    });
+  }  
+
   React.useEffect(() => {
     const fetchIngredients = async () => {
       setLoading(true);
@@ -35,9 +65,10 @@ function App() {
     <>
       <AppHeader />
       <section className={`${appStyles.body}`}>
-        <BurgerIngredients ingredients={ingredients} />
+        <BurgerIngredients ingredients={ingredients} onIngredientClick={openModal} />
         <BurgerConstructor ingredients={ingredients} />
       </section>
+      <Modal isOpen={modalState.isOpen} content={modalState.content} />
     </>
   );
 }
