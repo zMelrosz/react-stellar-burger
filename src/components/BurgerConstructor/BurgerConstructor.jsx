@@ -3,8 +3,9 @@ import styles from "./BurgerConstructor.module.css";
 import Price from "../Price/Price";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorIngredientCard from "../ConstructorIngredientCard/ConstructorIngredientCard";
+import PropTypes from "prop-types";
 
-const BurgerConstructor = ({ ingredients }) => {
+const BurgerConstructor = ({ ingredients, onSubmitClick }) => {
   return (
     <div className={`${styles.burgerConstructor} pt-25 custom-scroll`}>
       <ConstructorIngredientCard ingredient={ingredients.find(ingredient => ingredient.name === "Краторная булка N-200i")} isTop={true} />
@@ -17,12 +18,18 @@ const BurgerConstructor = ({ ingredients }) => {
 
       <div className={`${styles.orderInfo} mt-10`}>
         <Price amount={612} size="medium" />
-        <Button htmlType="button" type="primary" size="medium">
+        <Button htmlType="button" type="primary" size="medium" onClick={onSubmitClick} >
           Оформить заказ
         </Button>
       </div>
     </div>
   );
 };
+
+BurgerConstructor.propTypes = {
+  ingredients: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onSubmitClick: PropTypes.func.isRequired,
+};
+
 
 export default BurgerConstructor;

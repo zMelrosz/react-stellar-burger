@@ -4,7 +4,6 @@ import IngredientCard from "../IngredientCard/IngredientCard";
 import styles from "./IngredientsContainer.module.css";
 
 const IngredientsContainer = ({ type, ingredients, onIngredientClick }) => {
-
   return (
     <div className={styles.container}>
       {ingredients.map((ingredient) => {

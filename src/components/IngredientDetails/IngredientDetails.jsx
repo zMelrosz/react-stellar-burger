@@ -1,9 +1,17 @@
+import PropTypes from "prop-types";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./IngredientDetails.module.css";
 import InfoItem from "../InfoItem/InfoItem";
 
-const IngredientDetails = ({calories, proteins, fats, carbs, imageLarge, closePopup }) => {
-
+const IngredientDetails = ({
+  ingredientName,
+  calories,
+  proteins,
+  fats,
+  carbs,
+  imageLarge,
+  closePopup,
+}) => {
   return (
     <>
       <div className={`${styles.header} mt-10 ml-10`}>
@@ -14,13 +22,9 @@ const IngredientDetails = ({calories, proteins, fats, carbs, imageLarge, closePo
           <CloseIcon />
         </div>
       </div>
-      <img
-        className={styles.image}
-        src={imageLarge}
-        alt="no"
-      />
+      <img className={styles.image} src={imageLarge} alt="no" />
       <p className="text text_type_main-medium mt-4 mb-8">
-        Биокотлета из марсианской Магнолии
+        {ingredientName}
       </p>
       <div className={`${styles.nutritionInfo} mb-15`}>
         <InfoItem label="Калории, ккал" value={calories} />
@@ -30,6 +34,16 @@ const IngredientDetails = ({calories, proteins, fats, carbs, imageLarge, closePo
       </div>
     </>
   );
+};
+
+IngredientDetails.propTypes = {
+  ingredientName: PropTypes.string.isRequired,
+  calories: PropTypes.number.isRequired,
+  proteins: PropTypes.number.isRequired,
+  fats: PropTypes.number.isRequired,
+  carbs: PropTypes.number.isRequired,
+  imageLarge: PropTypes.string.isRequired,
+  closePopup: PropTypes.func.isRequired,
 };
 
 export default IngredientDetails;

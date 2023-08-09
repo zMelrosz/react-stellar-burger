@@ -1,11 +1,12 @@
 import styles from "./OrderDetailsStyles.module.css"
 import doneImage from "../../images/done.svg";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
-const OrderDetails = () => {
+const OrderDetails = ({closePopup}) => {
   return (
     <>
-     <div className={styles.closeIcon}><CloseIcon  type="primary" /></div>
+     <div className={styles.closeIcon } onClick={closePopup} ><CloseIcon  type="primary" /></div>
       <p className=" text text_type_digits-large mt-30">034536</p>
       <p className="text text_type_main-medium mt-8">идентификатор заказа</p>
       <img className="mt-15" src={doneImage} alt="done" />
@@ -18,5 +19,10 @@ const OrderDetails = () => {
     </>
   );
 };
+
+OrderDetails.propTypes = {
+  closePopup: PropTypes.func.isRequired,
+};
+
 
 export default OrderDetails;

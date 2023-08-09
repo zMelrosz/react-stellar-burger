@@ -5,11 +5,12 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import Modal from "../Modal/Modal";
+import OrderDetails from "../OrderDetails/OrderDetails";
 
 function App() {
   const [ingredients, setIngredients] = React.useState([]);
   const [isLoading, setLoading] = React.useState(true);
-  
+
   const [modalState, setModalState] = React.useState({
     isOpen: false,
     content: null,
@@ -22,23 +23,34 @@ function App() {
     });
   }
 
-  const openModal = (ingredient) => {
-    console.log(ingredient);
-    const content = (
-      <IngredientDetails
-        calories={ingredient.calories}
-        proteins={ingredient.proteins}
-        fats={ingredient.fat}
-        carbs={ingredient.carbohydrates}
-        imageLarge={ingredient.image_large}
-        closePopup={closeModal}
-      />
-    );
-    setModalState({
-      isOpen: true,
-      content: content,
-    });
-  }  
+  const openModal = (clicked) => {
+
+    if (clicked.type === "bun" || clicked.type === "sauce" || clicked.type === "main") {
+      const content = (
+        <IngredientDetails
+          ingredientName={clicked.name}
+          calories={clicked.calories}
+          proteins={clicked.proteins}
+          fats={clicked.fat}
+          carbs={clicked.carbohydrates}
+          imageLarge={clicked.image_large}
+          closePopup={closeModal}
+        />
+      );
+      setModalState({
+        isOpen: true,
+        content: content,
+      });
+    } else {
+      const content = (
+        <OrderDetails closePopup={closeModal} />
+      );
+      setModalState({
+        isOpen: true,
+        content: content
+      });
+    }
+  }
 
   React.useEffect(() => {
     const fetchIngredients = async () => {
@@ -62,13 +74,13 @@ function App() {
   }
 
   return (
-    <>
+    <> 
       <AppHeader />
       <section className={`${appStyles.body}`}>
         <BurgerIngredients ingredients={ingredients} onIngredientClick={openModal} />
-        <BurgerConstructor ingredients={ingredients} />
+        <BurgerConstructor ingredients={ingredients} onSubmitClick={openModal} />
       </section>
-      <Modal isOpen={modalState.isOpen} content={modalState.content} />
+      <Modal isOpen={modalState.isOpen} content={modalState.content} closeModal={closeModal} />
     </>
   );
 }
