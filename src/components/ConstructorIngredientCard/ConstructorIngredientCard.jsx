@@ -5,6 +5,7 @@ import {
   DragIcon,
   ConstructorElement,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { ingredientType } from "../../utils/prop-types";
 
 const ConstructorIngredientCard = ({ ingredient, isTop, isBottom }) => {
   if (isTop) {
@@ -54,12 +55,7 @@ const ConstructorIngredientCard = ({ ingredient, isTop, isBottom }) => {
 };
 
 ConstructorIngredientCard.propTypes = {
-  ingredient: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-  }).isRequired,
+  ingredient: ingredientType.isRequired,
   isTop: PropTypes.bool,
   isBottom: PropTypes.bool,
 };

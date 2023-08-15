@@ -15,3 +15,15 @@
     box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.04), 0px 4px 8px 0px rgba(0, 0, 0, 0.04), 0px 16px 24px 0px rgba(0, 0, 0, 0.04), 0px 24px 32px 0px rgba(0, 0, 0, 0.04);
     z-index: 1;
 }
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-self: flex-start;
+    width: 88.88888888888889%;
+}
+
+.pointer {
+    cursor: pointer;
+}

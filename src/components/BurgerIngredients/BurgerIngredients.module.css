@@ -21,3 +21,21 @@
     overflow: scroll; */
     max-width: 31.25%;
 }
+
+.buttonContainer {
+    margin: auto;
+    display: flex;
+    width: 100%;
+    min-height: 56px;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.buttonContainer:hover {
+    box-shadow: inset 0px -2px 0px #4C4CFF;
+}
+
+.textChosen {
+    color: aquamarine;
+}

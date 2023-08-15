@@ -3,8 +3,9 @@ import PropTypes from "prop-types";
 import { createPortal } from "react-dom";
 import modalStyles from "./Modal.module.css";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
-const Modal = ({ content, isOpen, closeModal }) => {
+const Modal = ({ children, closeModal }) => {
   const [modalRoot, setModalRoot] = React.useState(null);
 
   React.useEffect(() => {
@@ -24,11 +25,21 @@ const Modal = ({ content, isOpen, closeModal }) => {
     };
   }, [closeModal]);
 
-  return isOpen
+  return modalRoot
     ? createPortal(
         <>
           <ModalOverlay closeModal={closeModal} />
-          <div className={modalStyles.modalWindow}>{content}</div>
+          <div className={modalStyles.modalWindow}>
+            <div className={`${modalStyles.header} mt-10 ml-10`}>
+              <h3 className={`${modalStyles.name} text text_type_main-large`}>
+                Детали ингредиента
+              </h3>
+              <div className={`${modalStyles.pointer}`} onClick={closeModal}>
+                <CloseIcon />
+              </div>
+            </div>
+            {children}
+          </div>
         </>,
         modalRoot
       )
@@ -36,10 +47,8 @@ const Modal = ({ content, isOpen, closeModal }) => {
 };
 
 Modal.propTypes = {
-  content: PropTypes.node,
-  isOpen: PropTypes.bool.isRequired,
+  children: PropTypes.node,
   closeModal: PropTypes.func.isRequired,
 };
-
 
 export default Modal;
