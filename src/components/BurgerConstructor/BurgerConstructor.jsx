@@ -14,9 +14,11 @@ const BurgerConstructor = ({ ingredients, onSubmitClick }) => {
   return (
     <div className={`${styles.burgerConstructor} pt-25 custom-scroll`}>
       {bun && <ConstructorIngredientCard ingredient={bun} isTop={true} />}
+      <div className={`${styles.ingredientsScroll} custom-scroll`}>
       {otherIngredients.map((ingredient, index) => (
         <ConstructorIngredientCard key={index} ingredient={ingredient} />
       ))}
+      </div>
       {bun && <ConstructorIngredientCard ingredient={bun} isBottom={true} />}
       <div className={`${styles.orderInfo} mt-10`}>
         <Price amount={612} size="medium" />

@@ -6,43 +6,60 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
+import { BURGER_API_URL, checkResponse, getIngredients } from "../../utils/burger-api";
 
 function App() {
   const [ingredients, setIngredients] = React.useState([]);
   const [isLoading, setLoading] = React.useState(true);
-  const [modalState, setModalState] = React.useState({
+  const [ingredientPopup, setIngredientPopup] = React.useState({
     isOpen: false,
     content: null,
   });
 
-  const closeModal = () => {
-    setModalState({
-      isOpen: false,
-      content: null,
+  const openIngredientPopup = (clicked) => {
+    console.log(clicked);
+
+    setIngredientPopup({
+      isOpen: true,
+      content: (
+        <IngredientDetails ingredient={clicked} closePopup={closeIngredientPopup} />
+      ),
     });
   };
-  
-  const openModal = (clicked) => {
-    if (clicked.type === "bun" || clicked.type === "sauce" || clicked.type === "main") {
-      setModalState({
-        isOpen: true,
-        content: <IngredientDetails ingredient={clicked} closePopup={closeModal} />
-      });
-    } else {
-      setModalState({
-        isOpen: true,
-        content: <OrderDetails closePopup={closeModal} />
-      });
-    }
+
+  const closeIngredientPopup = () => {
+    setIngredientPopup({
+      ...ingredientPopup,
+      isOpen: false,
+    });
+  };
+
+  const [orderPopup, setOrderPopup] = React.useState({
+    isOpen: false,
+    content: null,
+  });
+
+  const openOrderPopup = () => {
+    setOrderPopup({
+      isOpen: true,
+      content: <OrderDetails closePopup={closeOrderPopup} />,
+    });
+  };
+
+  const closeOrderPopup = () => {
+    setOrderPopup({
+      ...orderPopup,
+      isOpen: false,
+    });
   };
 
   React.useEffect(() => {
     const fetchIngredients = async () => {
       setLoading(true);
-      const url = "https://norma.nomoreparties.space/api/ingredients";
+      const url = `${BURGER_API_URL}/ingredients`;
       try {
         const response = await fetch(url);
-        const data = await response.json();
+        const data = await checkResponse(response);
         setIngredients(data.data);
       } catch (err) {
         console.log(err);
@@ -58,16 +75,19 @@ function App() {
   }
 
   return (
-    <> 
+    <>
       <AppHeader />
+
       <section className={`${appStyles.body}`}>
-        <BurgerIngredients ingredients={ingredients} onIngredientClick={openModal} />
-        <BurgerConstructor ingredients={ingredients} onSubmitClick={openModal} />
+        <BurgerIngredients ingredients={ingredients} onIngredientClick={openIngredientPopup} />
+        <BurgerConstructor ingredients={ingredients} onSubmitClick={openOrderPopup} />
       </section>
-      {modalState.isOpen && (
-        <Modal closeModal={closeModal}>
-          {modalState.content}
-        </Modal>
+
+      {ingredientPopup.isOpen && (
+        <Modal closeModal={closeIngredientPopup}>{ingredientPopup.content}</Modal>
+      )}
+      {orderPopup.isOpen && (
+        <Modal closeModal={closeOrderPopup}>{orderPopup.content}</Modal>
       )}
     </>
   );

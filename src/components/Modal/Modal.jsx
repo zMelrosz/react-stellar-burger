@@ -6,11 +6,7 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const Modal = ({ children, closeModal }) => {
-  const [modalRoot, setModalRoot] = React.useState(null);
-
-  React.useEffect(() => {
-    setModalRoot(document.getElementById("react-modals"));
-  }, []);
+  const modalRoot = document.getElementById('react-modals');
 
   React.useEffect(() => {
     const handleEscDown = (e) => {

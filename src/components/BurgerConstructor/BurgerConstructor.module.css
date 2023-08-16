@@ -15,3 +15,10 @@
     align-items: center;
     gap: 40px;
 }
+
+.ingredientsScroll {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    gap: 16px;
+}
