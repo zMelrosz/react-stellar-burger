@@ -7,6 +7,7 @@ import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import { BURGER_API_URL, checkResponse, getIngredients } from "../../utils/burger-api";
+import { IngredientsContext } from "../../services/burgerConstructorContext"
 
 function App() {
   const [ingredients, setIngredients] = React.useState([]);
