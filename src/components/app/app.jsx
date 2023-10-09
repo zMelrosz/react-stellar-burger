@@ -80,8 +80,10 @@ function App() {
       <AppHeader />
 
       <section className={`${appStyles.body}`}>
+      <IngredientsContext.Provider value={{ ingredients, setIngredients}}>
         <BurgerIngredients ingredients={ingredients} onIngredientClick={openIngredientPopup} />
         <BurgerConstructor ingredients={ingredients} onSubmitClick={openOrderPopup} />
+      </IngredientsContext.Provider>
       </section>
 
       {ingredientPopup.isOpen && (
