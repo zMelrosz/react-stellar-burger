@@ -6,11 +6,21 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import { BURGER_API_URL, checkResponse, getIngredients } from "../../utils/burger-api";
-import { IngredientsContext } from "../../services/burgerConstructorContext"
+import {
+  BURGER_API_URL,
+  ORDER_API_URL,
+  checkResponse,
+} from "../../utils/burger-api";
+import { IngredientsContext } from "../../services/IngredientsContext";
+import { TotalPriceContext } from "../../services/TotalPriceContext";
+import { postData } from "../../utils/burger-api";
 
 function App() {
-  const [ingredients, setIngredients] = React.useState([]);
+  const [ingredients, setIngredients] = React.useState({
+    all: [],
+    chosen: [],
+  });
+  const [totalPrice, setTotalPrice] = React.useState(0);
   const [isLoading, setLoading] = React.useState(true);
   const [ingredientPopup, setIngredientPopup] = React.useState({
     isOpen: false,
@@ -23,11 +33,32 @@ function App() {
     setIngredientPopup({
       isOpen: true,
       content: (
-        <IngredientDetails ingredient={clicked} closePopup={closeIngredientPopup} />
+        <IngredientDetails
+          ingredient={clicked}
+          closePopup={closeIngredientPopup}
+        />
       ),
     });
   };
 
+  const addIngredient = (clicked) => {
+    if (clicked.type === "bun" && ingredients.chosen.some(item => item.type === "bun")) {
+      const bunIndex = ingredients.chosen.findIndex(item => item.type === "bun");
+      ingredients.chosen.splice(bunIndex, 1, clicked);
+      openIngredientPopup(clicked); //check
+    } else {
+      ingredients.chosen.push(clicked);
+      openIngredientPopup(clicked); // check
+    }
+
+    if (clicked.type === "bun") {
+      setTotalPrice(ingredients.chosen.reduce((acc, ingredient) => ingredient.price*2 + acc, 0));
+    } else {
+      setTotalPrice(ingredients.chosen.reduce((acc, ingredient) => ingredient.price + acc, 0));
+    }
+    setIngredients({ ...ingredients, chosen: [...ingredients.chosen] });
+  };
+  
   const closeIngredientPopup = () => {
     setIngredientPopup({
       ...ingredientPopup,
@@ -40,12 +71,30 @@ function App() {
     content: null,
   });
 
-  const openOrderPopup = () => {
+  const openOrderPopup = (name, id) => {
     setOrderPopup({
       isOpen: true,
-      content: <OrderDetails closePopup={closeOrderPopup} />,
+      content: <OrderDetails name={name} id={id} />,
     });
   };
+
+  const orderSubmit = () => {
+    setLoading(true);
+    const order = {
+      "ingredients": ingredients.chosen.map(ingredient => {
+        return ingredient._id;
+      }),
+  }
+  postData(ORDER_API_URL, order)
+   .then(responseOrder => {
+    console.log(responseOrder);
+    openOrderPopup(responseOrder.name, responseOrder.order.number);
+   })
+   .catch(err => {
+    console.log(err);
+   })
+   .finally(() => setLoading(false));
+}
 
   const closeOrderPopup = () => {
     setOrderPopup({
@@ -61,7 +110,10 @@ function App() {
       try {
         const response = await fetch(url);
         const data = await checkResponse(response);
-        setIngredients(data.data);
+        setIngredients((prevState) => ({
+          ...prevState,
+          all: data.data,
+        }));
       } catch (err) {
         console.log(err);
       } finally {
@@ -80,14 +132,24 @@ function App() {
       <AppHeader />
 
       <section className={`${appStyles.body}`}>
-      <IngredientsContext.Provider value={{ ingredients, setIngredients}}>
-        <BurgerIngredients ingredients={ingredients} onIngredientClick={openIngredientPopup} />
-        <BurgerConstructor ingredients={ingredients} onSubmitClick={openOrderPopup} />
-      </IngredientsContext.Provider>
+        <TotalPriceContext.Provider value={{ totalPrice, setTotalPrice }}>
+          <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
+            <BurgerIngredients
+              ingredients={ingredients}
+              onIngredientClick={addIngredient}
+            />
+            <BurgerConstructor
+              ingredients={ingredients}
+              onSubmitClick={orderSubmit}
+            />
+          </IngredientsContext.Provider>
+        </TotalPriceContext.Provider>
       </section>
 
       {ingredientPopup.isOpen && (
-        <Modal closeModal={closeIngredientPopup}>{ingredientPopup.content}</Modal>
+        <Modal closeModal={closeIngredientPopup}>
+          {ingredientPopup.content}
+        </Modal>
       )}
       {orderPopup.isOpen && (
         <Modal closeModal={closeOrderPopup}>{orderPopup.content}</Modal>

@@ -5,11 +5,16 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorIngredientCard from "../ConstructorIngredientCard/ConstructorIngredientCard";
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/prop-types";
+import { IngredientsContext } from "../../services/IngredientsContext";
+import { TotalPriceContext } from "../../services/TotalPriceContext";
 
-const BurgerConstructor = ({ ingredients, onSubmitClick }) => {
+const BurgerConstructor = ({ onSubmitClick }) => {
+  const { ingredients } = React.useContext(IngredientsContext);
+  const { totalPrice } = React.useContext(TotalPriceContext);
+
   const { bun, otherIngredients } = {
-    bun: ingredients.find(item => item.type === 'bun'),
-    otherIngredients: ingredients.filter(item => item.type !== 'bun'),
+    bun: ingredients.chosen.find(item => item.type === 'bun'),
+    otherIngredients: ingredients.chosen.filter(item => item.type !== 'bun'),
   };
   return (
     <div className={`${styles.burgerConstructor} pt-25 custom-scroll`}>
@@ -21,7 +26,7 @@ const BurgerConstructor = ({ ingredients, onSubmitClick }) => {
       </div>
       {bun && <ConstructorIngredientCard ingredient={bun} isBottom={true} />}
       <div className={`${styles.orderInfo} mt-10`}>
-        <Price amount={612} size="medium" />
+        <Price amount={totalPrice} size="medium" />
         <Button htmlType="button" type="primary" size="medium" onClick={onSubmitClick} >
           Оформить заказ
         </Button>
@@ -31,7 +36,6 @@ const BurgerConstructor = ({ ingredients, onSubmitClick }) => {
 };
 
 BurgerConstructor.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientType.isRequired).isRequired,
   onSubmitClick: PropTypes.func.isRequired,
 };
 

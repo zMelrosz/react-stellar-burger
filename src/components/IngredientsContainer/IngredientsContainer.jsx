@@ -3,11 +3,13 @@ import PropTypes from "prop-types";
 import IngredientCard from "../IngredientCard/IngredientCard";
 import styles from "./IngredientsContainer.module.css";
 import { ingredientType } from "../../utils/prop-types";
+import { IngredientsContext } from "../../services/IngredientsContext";
 
-const IngredientsContainer = ({ type, ingredients, onIngredientClick }) => {
+const IngredientsContainer = ({ type, onIngredientClick }) => {
+  const { ingredients } = React.useContext(IngredientsContext);
   return (
     <div className={styles.container}>
-      {ingredients.map((ingredient) => {
+      {ingredients.all.map((ingredient) => {
         if (ingredient.type === type) {
           return (
             <IngredientCard
@@ -25,7 +27,6 @@ const IngredientsContainer = ({ type, ingredients, onIngredientClick }) => {
 
 IngredientsContainer.propTypes = {
   type: PropTypes.string.isRequired,
-  ingredients: PropTypes.arrayOf(ingredientType).isRequired,
   onIngredientClick: PropTypes.func.isRequired,
 };
 

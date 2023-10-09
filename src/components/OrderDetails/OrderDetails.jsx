@@ -1,11 +1,11 @@
 import doneImage from "../../images/done.svg";
 import PropTypes from "prop-types";
 
-const OrderDetails = () => {
+const OrderDetails = ({ name, id }) => {
   return (
     <>
-      <p className=" text text_type_digits-large mt-30">034536</p>
-      <p className="text text_type_main-medium mt-8">идентификатор заказа</p>
+      <p className=" text text_type_digits-large mt-30">{id}</p>
+      <p className="text text_type_main-medium mt-8">{name}</p>
       <img className="mt-15" src={doneImage} alt="done" />
       <p className="text text_type_main-small mt-15">
         Ваш заказ начали готовить
@@ -18,8 +18,13 @@ const OrderDetails = () => {
 };
 
 OrderDetails.propTypes = {
-  closePopup: PropTypes.func.isRequired,
+  name: PropTypes.string.isRequired,
+  id: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired
 };
+
 
 
 export default OrderDetails;

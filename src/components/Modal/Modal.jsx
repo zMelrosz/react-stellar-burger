@@ -27,9 +27,6 @@ const Modal = ({ children, closeModal }) => {
           <ModalOverlay closeModal={closeModal} />
           <div className={modalStyles.modalWindow}>
             <div className={`${modalStyles.header} mt-10 ml-10`}>
-              <h3 className={`${modalStyles.name} text text_type_main-large`}>
-                Детали ингредиента
-              </h3>
               <div className={`${modalStyles.pointer}`} onClick={closeModal}>
                 <CloseIcon />
               </div>
