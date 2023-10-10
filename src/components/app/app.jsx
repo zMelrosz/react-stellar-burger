@@ -20,7 +20,8 @@ function App() {
     all: [],
     chosen: [],
   });
-  const [totalPrice, setTotalPrice] = React.useState(0);
+  
+  const totalPriceInitialState = { totalPrice: 0 };
   const [isLoading, setLoading] = React.useState(true);
   const [ingredientPopup, setIngredientPopup] = React.useState({
     isOpen: false,
@@ -41,24 +42,44 @@ function App() {
     });
   };
 
+  const totalPriceReducer = (state, action) => {
+    switch (action.type) {
+      case "ADD_INGREDIENT":
+        if (action.payload.type === "bun") {
+          return {
+            totalPrice: state.totalPrice + action.payload.price * 2,
+          };
+        } else {
+          return {
+            totalPrice: state.totalPrice + action.payload.price,
+          };
+        }
+      default:
+        return state;
+    }
+  };
+
+  const [state, dispatch] = React.useReducer(totalPriceReducer, totalPriceInitialState);
+
   const addIngredient = (clicked) => {
-    if (clicked.type === "bun" && ingredients.chosen.some(item => item.type === "bun")) {
-      const bunIndex = ingredients.chosen.findIndex(item => item.type === "bun");
+    if (
+      clicked.type === "bun" &&
+      ingredients.chosen.some((item) => item.type === "bun")
+    ) {
+      const bunIndex = ingredients.chosen.findIndex(
+        (item) => item.type === "bun"
+      );
       ingredients.chosen.splice(bunIndex, 1, clicked);
-      openIngredientPopup(clicked); //check
+      openIngredientPopup(clicked); //TO REMOVE
     } else {
       ingredients.chosen.push(clicked);
-      openIngredientPopup(clicked); // check
+      openIngredientPopup(clicked); // TO REMOVE
     }
 
-    if (clicked.type === "bun") {
-      setTotalPrice(ingredients.chosen.reduce((acc, ingredient) => ingredient.price*2 + acc, 0));
-    } else {
-      setTotalPrice(ingredients.chosen.reduce((acc, ingredient) => ingredient.price + acc, 0));
-    }
+    dispatch({ type: "ADD_INGREDIENT", payload: clicked });
     setIngredients({ ...ingredients, chosen: [...ingredients.chosen] });
   };
-  
+
   const closeIngredientPopup = () => {
     setIngredientPopup({
       ...ingredientPopup,
@@ -81,20 +102,20 @@ function App() {
   const orderSubmit = () => {
     setLoading(true);
     const order = {
-      "ingredients": ingredients.chosen.map(ingredient => {
+      ingredients: ingredients.chosen.map((ingredient) => {
         return ingredient._id;
       }),
-  }
-  postData(ORDER_API_URL, order)
-   .then(responseOrder => {
-    console.log(responseOrder);
-    openOrderPopup(responseOrder.name, responseOrder.order.number);
-   })
-   .catch(err => {
-    console.log(err);
-   })
-   .finally(() => setLoading(false));
-}
+    };
+    postData(ORDER_API_URL, order)
+      .then((responseOrder) => {
+        console.log(responseOrder);
+        openOrderPopup(responseOrder.name, responseOrder.order.number);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => setLoading(false));
+  };
 
   const closeOrderPopup = () => {
     setOrderPopup({
@@ -132,7 +153,7 @@ function App() {
       <AppHeader />
 
       <section className={`${appStyles.body}`}>
-        <TotalPriceContext.Provider value={{ totalPrice, setTotalPrice }}>
+        <TotalPriceContext.Provider value={{ totalPrice: state.totalPrice, dispatch }}>
           <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
             <BurgerIngredients
               ingredients={ingredients}
