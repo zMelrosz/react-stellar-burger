@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    align-self: flex-start;
+    width: 88.88888888888889%;
+}
+
+.image {
+    width: 480px;
+    height: 240px;
+}
+
+.nutritionInfo {
+    display: flex;
+    gap: 20px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+

@@ -1,0 +1,12 @@
+.cardContainer {
+    display: flex;
+    max-height: 80px;
+    width: 568px;
+    align-items: center;
+    gap: 8px;
+}
+
+.dragContainer {
+    width: 24px;
+    height: 24px;
+}
