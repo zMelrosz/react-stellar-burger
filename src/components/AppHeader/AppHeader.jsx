@@ -9,7 +9,7 @@ import headerStyles from "./AppHeader.module.css";
 
 const AppHeader = () => {
   return (
-    <div className={headerStyles.header}>
+    <header className={headerStyles.header}>
       <div className={headerStyles.container}>
         <a
           className={`${headerStyles.navBlock} ${headerStyles.navBlockWhite} text text_type_main-small pl-5 pr-5 mr-2 mb-4 mt-4`}
@@ -36,7 +36,7 @@ const AppHeader = () => {
         <ProfileIcon type="secondary" />
         Личный кабинет
       </a>
-    </div>
+    </header>
   );
 };
 

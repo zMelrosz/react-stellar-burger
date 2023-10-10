@@ -8,12 +8,11 @@ import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import {
   BURGER_API_URL,
-  ORDER_API_URL,
   checkResponse,
+  postData, 
 } from "../../utils/burger-api";
 import { IngredientsContext } from "../../services/IngredientsContext";
 import { TotalPriceContext } from "../../services/TotalPriceContext";
-import { postData } from "../../utils/burger-api";
 
 function App() {
   const [ingredients, setIngredients] = React.useState({
@@ -99,23 +98,25 @@ function App() {
     });
   };
 
-  const orderSubmit = () => {
+  const orderSubmit = async () => {
     setLoading(true);
     const order = {
       ingredients: ingredients.chosen.map((ingredient) => {
         return ingredient._id;
       }),
     };
-    postData(ORDER_API_URL, order)
-      .then((responseOrder) => {
-        console.log(responseOrder);
-        openOrderPopup(responseOrder.name, responseOrder.order.number);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => setLoading(false));
-  };
+
+    try {
+      const response = await postData(`${BURGER_API_URL}/orders`, order); 
+      const data = await checkResponse(response); 
+      openOrderPopup(data.name, data.order.number);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setLoading(false);
+    }
+
+  }
 
   const closeOrderPopup = () => {
     setOrderPopup({
@@ -144,38 +145,34 @@ function App() {
     fetchIngredients();
   }, []);
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <>
       <AppHeader />
+    <main className={`${appStyles.body}`}>
+      <TotalPriceContext.Provider value={{ totalPrice: state.totalPrice, dispatch }}>
+        <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
+          <BurgerIngredients
+            onIngredientClick={addIngredient}
+          />
+          <BurgerConstructor
+            onSubmitClick={orderSubmit}
+          />
+        </IngredientsContext.Provider>
+      </TotalPriceContext.Provider>
+    </main>
 
-      <section className={`${appStyles.body}`}>
-        <TotalPriceContext.Provider value={{ totalPrice: state.totalPrice, dispatch }}>
-          <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
-            <BurgerIngredients
-              ingredients={ingredients}
-              onIngredientClick={addIngredient}
-            />
-            <BurgerConstructor
-              ingredients={ingredients}
-              onSubmitClick={orderSubmit}
-            />
-          </IngredientsContext.Provider>
-        </TotalPriceContext.Provider>
-      </section>
-
-      {ingredientPopup.isOpen && (
-        <Modal closeModal={closeIngredientPopup}>
-          {ingredientPopup.content}
-        </Modal>
-      )}
-      {orderPopup.isOpen && (
-        <Modal closeModal={closeOrderPopup}>{orderPopup.content}</Modal>
-      )}
-    </>
+    {ingredientPopup.isOpen && (
+      <Modal closeModal={closeIngredientPopup}>
+        {ingredientPopup.content}
+      </Modal>
+    )}
+    
+    {orderPopup.isOpen && (
+      <Modal closeModal={closeOrderPopup}>{orderPopup.content}</Modal>
+    )}
+    
+    {isLoading && <div className={`${appStyles.loading}`}>Loading...</div>}
+  </>
   );
 }
 

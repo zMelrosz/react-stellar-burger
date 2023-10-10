@@ -4,7 +4,6 @@ import Price from "../Price/Price";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorIngredientCard from "../ConstructorIngredientCard/ConstructorIngredientCard";
 import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/prop-types";
 import { IngredientsContext } from "../../services/IngredientsContext";
 import { TotalPriceContext } from "../../services/TotalPriceContext";
 

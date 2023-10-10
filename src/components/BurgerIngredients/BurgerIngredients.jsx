@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import burgerIngredientsStyles from "./BurgerIngredients.module.css";
 import IngredientsContainer from "../IngredientsContainer/IngredientsContainer";
-import { ingredientType } from "../../utils/prop-types.js";
 
 const BurgerIngredients = ({ onIngredientClick }) => {
   return (
