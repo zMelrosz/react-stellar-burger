@@ -1,15 +1,24 @@
-import React from "react";
+import React from 'react'
 import PropTypes from "prop-types";
 import IngredientCard from "../IngredientCard/IngredientCard";
 import styles from "./IngredientsContainer.module.css";
-import { ingredientType } from "../../utils/prop-types";
-import { IngredientsContext } from "../../services/IngredientsContext";
+import { useGetIngredientsQuery, burgerApi } from "../../services/api";
+import LoadingIcon from '../LoadingIcon/LoadingIcon';
+
 
 const IngredientsContainer = ({ type, onIngredientClick }) => {
-  const { ingredients } = React.useContext(IngredientsContext);
+  
+  const { data: ingredientsResponce, isLoading, isError } = useGetIngredientsQuery();
+
+  if (isLoading) return <LoadingIcon />;
+  if (isError) return console.log('error');
+
+  const ingredients = ingredientsResponce.data ? ingredientsResponce.data : [];
+  console.log(ingredients);
+
   return (
     <div className={styles.container}>
-      {ingredients.all.map((ingredient) => {
+      {ingredients.map((ingredient) => {
         if (ingredient.type === type) {
           return (
             <IngredientCard
