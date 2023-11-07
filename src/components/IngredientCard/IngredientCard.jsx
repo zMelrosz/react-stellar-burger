@@ -7,10 +7,7 @@ import { ingredientType } from "../../utils/prop-types";
 
 const IngredientCard = ({ ingredientInfo, onIngredientClick }) => {
   return (
-    <div
-      className={styles.card}
-      onClick={() => onIngredientClick(ingredientInfo)}
-    >
+    <div className={styles.card} onClick={() => onIngredientClick(ingredientInfo)}>
       <Counter count={1} size="default" />
       <img src={ingredientInfo.image} alt={ingredientInfo.name} />
       <Price amount={ingredientInfo.price} />

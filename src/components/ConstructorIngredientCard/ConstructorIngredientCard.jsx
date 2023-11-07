@@ -1,10 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./ConstructorIngredientCard.module.css";
-import {
-  DragIcon,
-  ConstructorElement,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../utils/prop-types";
 
 const ConstructorIngredientCard = ({ ingredient, isTop, isBottom }) => {

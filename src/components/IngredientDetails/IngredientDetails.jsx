@@ -8,14 +8,8 @@ const IngredientDetails = ({ ingredient }) => {
   }
   return (
     <>
-      <h3 className={`text text_type_main-large`}>
-        Детали ингредиента
-      </h3>
-      <img
-        className={styles.image}
-        src={ingredient.image_large}
-        alt={ingredient.name}
-      />
+      <h3 className={`text text_type_main-large`}>Детали ингредиента</h3>
+      <img className={styles.image} src={ingredient.image_large} alt={ingredient.name} />
       <p className="text text_type_main-medium mt-4 mb-8">{ingredient.name}</p>
       <div className={`${styles.nutritionInfo} mb-15`}>
         <InfoItem label="Калории, ккал" value={ingredient.calories} />

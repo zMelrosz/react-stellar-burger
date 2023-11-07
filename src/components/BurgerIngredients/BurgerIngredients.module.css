@@ -1,41 +1,41 @@
 .ingredientTypeArea {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .ingredientTypes {
-    max-height: 726px;
-    overflow: auto;
-    overflow-x: hidden;
+  max-height: 726px;
+  overflow: auto;
+  overflow-x: hidden;
 }
 
 .area {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    row-gap: 32px;
-    column-gap: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  row-gap: 32px;
+  column-gap: 24px;
 }
 
 .burgerIngredients {
-    /* max-height: 912px;
+  /* max-height: 912px;
     overflow: scroll; */
-    max-width: 31.25%;
+  max-width: 31.25%;
 }
 
 .buttonContainer {
-    margin: auto;
-    display: flex;
-    width: 100%;
-    min-height: 56px;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+  margin: auto;
+  display: flex;
+  width: 100%;
+  min-height: 56px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .buttonContainer:hover {
-    box-shadow: inset 0px -2px 0px #4C4CFF;
+  box-shadow: inset 0px -2px 0px #4c4cff;
 }
 
 .textChosen {
-    color: aquamarine;
+  color: aquamarine;
 }

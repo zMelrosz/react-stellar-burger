@@ -6,7 +6,7 @@ import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 const Modal = ({ children, closeModal }) => {
-  const modalRoot = document.getElementById('react-modals');
+  const modalRoot = document.getElementById("react-modals");
 
   React.useEffect(() => {
     const handleEscDown = (e) => {
@@ -34,7 +34,7 @@ const Modal = ({ children, closeModal }) => {
             {children}
           </div>
         </>,
-        modalRoot
+        modalRoot,
       )
     : null;
 };

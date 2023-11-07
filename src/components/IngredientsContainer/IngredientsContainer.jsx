@@ -1,32 +1,41 @@
-import React from 'react'
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import IngredientCard from "../IngredientCard/IngredientCard";
 import styles from "./IngredientsContainer.module.css";
-import { useGetIngredientsQuery, burgerApi } from "../../services/api";
-import LoadingIcon from '../LoadingIcon/LoadingIcon';
+import { useGetIngredientsQuery } from "../../services/api";
+import LoadingIcon from "../LoadingIcon/LoadingIcon";
+import { burgerConstructorSlice } from "../../services/store";
 
+const IngredientsContainer = ({ type,  }) => {
+  const { data: ingredientsResponce, isLoading, isError } = useGetIngredientsQuery(); // fetch all ingredients or go to cache
+  const selectedIngredients = useSelector((state) => state.burgerConstructor.selectedIngredients); // check selected ingredients
 
-const IngredientsContainer = ({ type, onIngredientClick }) => {
-  
-  const { data: ingredientsResponce, isLoading, isError } = useGetIngredientsQuery();
+  const dispatch = useDispatch();
 
-  if (isLoading) return <LoadingIcon />;
-  if (isError) return console.log('error');
+  if (isLoading) {
+    return <LoadingIcon />;
+  }
+  if (isError) {
+    return console.log("error");
+  }
+  const allIngredients = ingredientsResponce.data ? ingredientsResponce.data : [];
 
-  const ingredients = ingredientsResponce.data ? ingredientsResponce.data : [];
-  console.log(ingredients);
+  const onIngredientClick = (clickedIngredient) => {
+    console.log(selectedIngredients);
+    if (clickedIngredient.type === "bun" && selectedIngredients.some((ingredient) => ingredient.type === "bun")) {
+      // replace bun check
+      dispatch(burgerConstructorSlice.actions.replaceBun(clickedIngredient));
+    } else {
+      dispatch(burgerConstructorSlice.actions.addIngredient(clickedIngredient));
+    }
+  };
 
   return (
     <div className={styles.container}>
-      {ingredients.map((ingredient) => {
+      {allIngredients.map((ingredient) => {
         if (ingredient.type === type) {
-          return (
-            <IngredientCard
-              ingredientInfo={ingredient}
-              key={ingredient._id}
-              onIngredientClick={onIngredientClick}
-            />
-          );
+          return <IngredientCard ingredientInfo={ingredient} key={ingredient._id} onIngredientClick={onIngredientClick} />;
         }
         return null;
       })}
@@ -36,7 +45,6 @@ const IngredientsContainer = ({ type, onIngredientClick }) => {
 
 IngredientsContainer.propTypes = {
   type: PropTypes.string.isRequired,
-  onIngredientClick: PropTypes.func.isRequired,
 };
 
 export default IngredientsContainer;

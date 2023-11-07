@@ -6,15 +6,9 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import { useGetIngredientsQuery, selectGetIngredientsResult } from "../../services/api"; // NEW API
-import {
-  BURGER_API_URL,
-  checkResponse,
-  postData,
-} from "../../utils/burger-api";
+import { BURGER_API_URL, checkResponse, postData } from "../../utils/burger-api";
 import { IngredientsContext } from "../../services/IngredientsContext";
 import { TotalPriceContext } from "../../services/TotalPriceContext";
-
 
 function App() {
   const [ingredients, setIngredients] = React.useState({
@@ -34,12 +28,7 @@ function App() {
 
     setIngredientPopup({
       isOpen: true,
-      content: (
-        <IngredientDetails
-          ingredient={clicked}
-          closePopup={closeIngredientPopup}
-        />
-      ),
+      content: <IngredientDetails ingredient={clicked} closePopup={closeIngredientPopup} />,
     });
   };
 
@@ -60,29 +49,7 @@ function App() {
     }
   };
 
-  const [state, dispatch] = React.useReducer(
-    totalPriceReducer,
-    totalPriceInitialState
-  );
-
-  const addIngredient = (clicked) => {
-    if (
-      clicked.type === "bun" &&
-      ingredients.chosen.some((item) => item.type === "bun")
-    ) {
-      const bunIndex = ingredients.chosen.findIndex(
-        (item) => item.type === "bun"
-      );
-      ingredients.chosen.splice(bunIndex, 1, clicked);
-      openIngredientPopup(clicked); //TO REMOVE
-    } else {
-      ingredients.chosen.push(clicked);
-      openIngredientPopup(clicked); // TO REMOVE
-    }
-
-    dispatch({ type: "ADD_INGREDIENT", payload: clicked });
-    setIngredients({ ...ingredients, chosen: [...ingredients.chosen] });
-  };
+  const [state, dispatch] = React.useReducer(totalPriceReducer, totalPriceInitialState);
 
   const closeIngredientPopup = () => {
     setIngredientPopup({
@@ -129,49 +96,17 @@ function App() {
     });
   };
 
-  React.useEffect(() => {
-    const fetchIngredients = async () => {
-      //setLoading(true);
-      const url = `${BURGER_API_URL}/ingredients`;
-      try {
-        const response = await fetch(url);
-        const data = await checkResponse(response);
-        setIngredients((prevState) => ({
-          ...prevState,
-          all: data.data,
-        }));
-      } catch (err) {
-        console.log(err);
-      } finally {
-        //setLoading(false);
-      }
-    };
-    fetchIngredients();
-  }, []);
-
   return (
     <>
       <AppHeader />
       <main className={`${appStyles.body}`}>
-        <TotalPriceContext.Provider
-          value={{ totalPrice: state.totalPrice, dispatch }}
-        >
-          <IngredientsContext.Provider value={{ ingredients, setIngredients }}>
-            <BurgerIngredients onIngredientClick={addIngredient} />
+            <BurgerIngredients />
             <BurgerConstructor onSubmitClick={orderSubmit} />
-          </IngredientsContext.Provider>
-        </TotalPriceContext.Provider>
       </main>
 
-      {ingredientPopup.isOpen && (
-        <Modal closeModal={closeIngredientPopup}>
-          {ingredientPopup.content}
-        </Modal>
-      )}
+      {ingredientPopup.isOpen && <Modal closeModal={closeIngredientPopup}>{ingredientPopup.content}</Modal>}
 
-      {orderPopup.isOpen && (
-        <Modal closeModal={closeOrderPopup}>{orderPopup.content}</Modal>
-      )}
+      {orderPopup.isOpen && <Modal closeModal={closeOrderPopup}>{orderPopup.content}</Modal>}
     </>
   );
 }
