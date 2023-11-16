@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import appStyles from "../app/app.module.css";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
@@ -6,71 +6,35 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import { BURGER_API_URL, checkResponse, postData } from "../../utils/burger-api";
-import { IngredientsContext } from "../../services/IngredientsContext";
-import { TotalPriceContext } from "../../services/TotalPriceContext";
+import { useSelector, useDispatch } from "react-redux";
+import { burgerConstructorSlice } from "../../services/store";
+import { usePostOrderMutation } from "../../services/api";
+import LoadingIcon from "../LoadingIcon/LoadingIcon";
 
 function App() {
-  const [ingredients, setIngredients] = React.useState({
-    all: [],
-    chosen: [],
-  });
 
-  const totalPriceInitialState = { totalPrice: 0 };
-  //const [isLoading, setLoading] = React.useState(true);
-  const [ingredientPopup, setIngredientPopup] = React.useState({
-    isOpen: false,
-    content: null,
-  });
+  // global
+  const dispatch = useDispatch();
+  const isLoading = useSelector((state) => state.loading.isLoading);
 
-  const openIngredientPopup = (clicked) => {
-    console.log(clicked);
-
-    setIngredientPopup({
-      isOpen: true,
-      content: <IngredientDetails ingredient={clicked} closePopup={closeIngredientPopup} />,
-    });
-  };
-
-  const totalPriceReducer = (state, action) => {
-    switch (action.type) {
-      case "ADD_INGREDIENT":
-        if (action.payload.type === "bun") {
-          return {
-            totalPrice: state.totalPrice + action.payload.price * 2,
-          };
-        } else {
-          return {
-            totalPrice: state.totalPrice + action.payload.price,
-          };
-        }
-      default:
-        return state;
-    }
-  };
-
-  const [state, dispatch] = React.useReducer(totalPriceReducer, totalPriceInitialState);
-
+  // ingredeint popup
+  const ingredientDetails = useSelector(state => state.burgerConstructor.ingredientPopup.content ? state.burgerConstructor.ingredientPopup.content : null );
+  const isIngredientPopupOpen = useSelector(state => state.burgerConstructor.ingredientPopup.isOpen);
   const closeIngredientPopup = () => {
-    setIngredientPopup({
-      ...ingredientPopup,
-      isOpen: false,
-    });
+    dispatch(burgerConstructorSlice.actions.closeIngredientPopup());
   };
 
-  const [orderPopup, setOrderPopup] = React.useState({
-    isOpen: false,
-    content: null,
-  });
+  // order popup
+  const orderDetails = {
+    name: useSelector(state => state.burgerConstructor.orderInfo?.name ?? 'ERROR'),
+    number: useSelector(state => state.burgerConstructor.orderInfo?.number ?? 'ERROR'),
+  }
+  const isOrderPopupOpen = useSelector(state => state.burgerConstructor.orderPopup.isOpen);
+  const closeOrderPopup = () => {
+    dispatch(burgerConstructorSlice.actions.closeOrderPopup())
+  }
 
-  const openOrderPopup = (name, id) => {
-    setOrderPopup({
-      isOpen: true,
-      content: <OrderDetails name={name} id={id} />,
-    });
-  };
-
-  const orderSubmit = async () => {
+/*   const orderSubmit = async () => {
     //setLoading(true);
     const order = {
       ingredients: ingredients.chosen.map((ingredient) => {
@@ -87,26 +51,21 @@ function App() {
     } finally {
       //setLoading(false);
     }
-  };
+  }; */ 
 
-  const closeOrderPopup = () => {
-    setOrderPopup({
-      ...orderPopup,
-      isOpen: false,
-    });
-  };
 
   return (
     <>
+      {isLoading && <LoadingIcon />}
       <AppHeader />
       <main className={`${appStyles.body}`}>
             <BurgerIngredients />
-            <BurgerConstructor onSubmitClick={orderSubmit} />
+            <BurgerConstructor /* onSubmitClick={orderSubmit} */ />
       </main>
 
-      {ingredientPopup.isOpen && <Modal closeModal={closeIngredientPopup}>{ingredientPopup.content}</Modal>}
+      {isIngredientPopupOpen && <Modal closeModal={closeIngredientPopup}><IngredientDetails ingredientDetails={ingredientDetails} /></Modal>}
 
-      {orderPopup.isOpen && <Modal closeModal={closeOrderPopup}>{orderPopup.content}</Modal>}
+      {isOrderPopupOpen && <Modal closeModal={closeOrderPopup}><OrderDetails name={orderDetails.name} id={orderDetails.number} /></Modal>}
     </>
   );
 }

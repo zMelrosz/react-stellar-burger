@@ -7,23 +7,14 @@ export const burgerApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: "https://norma.nomoreparties.space/api" }),
   endpoints: (builder) => ({
     getIngredients: builder.query({ query: () => "/ingredients" }),
+    postOrder: builder.mutation({
+      query: (orderDetails) => ({
+        url: '/orders',
+        method: 'POST',
+        body: orderDetails
+      })
+    })
   }),
 });
 
-export const checkResponse = (res) => {
-  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
-};
-
-export const postData = async (url, data) => {
-  const res = await fetch(url, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  });
-
-  return await res;
-};
-
-export const { useGetIngredientsQuery } = burgerApi;
+export const { useGetIngredientsQuery, usePostOrderMutation } = burgerApi;

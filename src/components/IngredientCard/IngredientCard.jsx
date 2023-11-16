@@ -1,11 +1,26 @@
-import React from "react";
-import PropTypes from "prop-types";
 import styles from "./IngredientCard.module.css";
 import Price from "../Price/Price";
 import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../utils/prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { burgerConstructorSlice } from "../../services/store";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 
-const IngredientCard = ({ ingredientInfo, onIngredientClick }) => {
+const IngredientCard = ({ ingredientInfo }) => {
+  const dispatch = useDispatch();
+  const selectedIngredients = useSelector((state) => state.burgerConstructor.selectedIngredients); // check selected ingredients
+
+  const onIngredientClick = (clickedIngredient) => {
+    dispatch(burgerConstructorSlice.actions.openIngredientPopup(clickedIngredient))
+
+    if (clickedIngredient.type === "bun" && selectedIngredients.some((ingredient) => ingredient.type === "bun")) {
+      // replace bun check
+      dispatch(burgerConstructorSlice.actions.replaceBun(clickedIngredient));
+    } else {
+      dispatch(burgerConstructorSlice.actions.addIngredient(clickedIngredient));
+    }
+  };
+
   return (
     <div className={styles.card} onClick={() => onIngredientClick(ingredientInfo)}>
       <Counter count={1} size="default" />
@@ -18,7 +33,6 @@ const IngredientCard = ({ ingredientInfo, onIngredientClick }) => {
 
 IngredientCard.propTypes = {
   ingredientInfo: ingredientType.isRequired,
-  onIngredientClick: PropTypes.func.isRequired,
 };
 
 export default IngredientCard;

@@ -1,6 +1,6 @@
 import styles from "./LoadingIcon.module.css";
 const LoadingIcon = () => {
-  return <div className={`${styles.LoadingIcon}`}>Loading...</div>;
+  return <div className={`${styles.loadingIcon}`}>Loading...</div>;
 };
 
 export default LoadingIcon;
