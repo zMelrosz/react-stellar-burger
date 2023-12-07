@@ -30,9 +30,10 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+  transition: box-shadow 0.3s ease;
 }
 
-.buttonContainer:hover {
+.buttonContainer_active {
   box-shadow: inset 0px -2px 0px #4c4cff;
 }
 

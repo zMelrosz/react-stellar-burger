@@ -10,40 +10,40 @@ import { burgerConstructorSlice } from "../../services/store";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
-  const ingredients = useSelector(state => state.burgerConstructor.selectedIngredients);
-  const totalPrice = useSelector(state => state.burgerConstructor.totalPrice)
+  const ingredients = useSelector((state) => state.burgerConstructor.selectedIngredients);
+  const totalPrice = useSelector((state) => state.burgerConstructor.totalPrice);
 
   const { bun, otherIngredients } = {
     bun: ingredients.find((item) => item.type === "bun"),
     otherIngredients: ingredients.filter((item) => item.type !== "bun"),
   };
 
-    // order popup
-    const isOrderPopupOpen = false;
-    const [postOrder, {isLoading, isSucces, isError, data, error }] = usePostOrderMutation();
-    const order = {
-      ingredients: useSelector((state) => {
-        if (state.burgerConstructor.selectedIngredients) {
-          return state.burgerConstructor.selectedIngredients.map(ingredient => ingredient._id) 
-        } else return null;
-      })
-    }
-    
-    const orderSubmit = async () => {
-      try {
-        const res = await postOrder(order).unwrap();
-        if (res.success) {
-          const orderInfo = {
-            name: res.name,
-            number: res.order.number,
-          }
-          dispatch(burgerConstructorSlice.actions.openOrderPopup(orderInfo));
-          dispatch(burgerConstructorSlice.actions.addOrder(orderInfo));
+  // order popup
+  const [postOrder] = usePostOrderMutation();
+  const order = {
+    ingredients: useSelector((state) => {
+      if (state.burgerConstructor.selectedIngredients) {
+        return state.burgerConstructor.selectedIngredients.map((ingredient) => ingredient._id);
+      } else return null;
+    }),
+  };
+
+  const orderSubmit = async () => {
+    try {
+      const res = await postOrder(order).unwrap();
+      if (res.success) {
+        const orderInfo = {
+          name: res.name,
+          number: res.order.number,
         }
-      } catch (err) {
-        console.log(err); 
+        dispatch(burgerConstructorSlice.actions.openOrderPopup(orderInfo));
+        dispatch(burgerConstructorSlice.actions.addOrder(orderInfo));
       }
+    } catch (err) {
+      console.log(err);
+      return null;
     }
+  };
 
   return (
     <div className={`${styles.burgerConstructor} pt-25 custom-scroll`}>
@@ -64,7 +64,6 @@ const BurgerConstructor = () => {
   );
 };
 
-BurgerConstructor.propTypes = {
-};
+BurgerConstructor.propTypes = {};
 
 export default BurgerConstructor;
