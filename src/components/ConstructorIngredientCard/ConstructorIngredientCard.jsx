@@ -3,8 +3,26 @@ import PropTypes from "prop-types";
 import styles from "./ConstructorIngredientCard.module.css";
 import { DragIcon, ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../utils/prop-types";
+import { useSelector, useDispatch } from "react-redux";
+import { burgerConstructorSlice } from "../../services/store";
+import { useDrag } from "react-dnd";
 
 const ConstructorIngredientCard = ({ ingredient, isTop, isBottom }) => {
+  const dispatch = useDispatch();
+
+  const [{isDragging }, dragRef] = useDrag({
+    type:'constructorIngredient',
+    item: ingredient,
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    })
+  });
+
+  const removeIngredient = () => {
+    dispatch(burgerConstructorSlice.actions.removeIngredient(ingredient.name));
+    //console.log(ingredient.name)
+  }
+
   if (isTop) {
     return (
       <div className={`${styles.cardContainer}`}>
@@ -36,7 +54,7 @@ const ConstructorIngredientCard = ({ ingredient, isTop, isBottom }) => {
   }
 
   return (
-    <div className={`${styles.cardContainer}`}>
+    <div className={`${styles.cardContainer}`} ref={dragRef}>
       <div className={styles.dragContainer}>
         <DragIcon type="primary" />
       </div>
@@ -46,6 +64,7 @@ const ConstructorIngredientCard = ({ ingredient, isTop, isBottom }) => {
         price={ingredient.price}
         type={ingredient.type}
         isLocked={false}
+        handleClose={removeIngredient}
       />
     </div>
   );

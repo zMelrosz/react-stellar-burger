@@ -32,6 +32,7 @@ export const burgerConstructorSlice = createSlice({
   name: "burgerConstructor",
   initialState: {
     selectedIngredients: [],
+    draggedElement: [],
     totalPrice: 0,
     orderInfo: null,
     ingredientPopup: {
@@ -53,9 +54,27 @@ export const burgerConstructorSlice = createSlice({
         state.totalPrice += action.payload.price;
       }
     },
+
+    removeIngredient: (state, action) => {
+      const clickedIngredientName = action.payload;
+      const stateIngredientIndex = state.selectedIngredients.findIndex(ingredient => ingredient.name === clickedIngredientName)
+       if(stateIngredientIndex !== -1) {
+        state.selectedIngredients.splice(stateIngredientIndex, 1);
+      } 
+    },
+
+    moveIngredient: (state,action) => {
+      const { fromIndex, toIndex } = action.payload;
+      const ingredients = [...state.selectedIngredients];
+
+      ingredients.splice(toIndex, 0, ingredients.splice(fromIndex, 1, [0]))
+      state.selectedIngredients = ingredients;
+    },
+
     addOrder: (state, action) => {
       state.orderInfo = action.payload;
     },
+
     replaceBun: (state, action) => {
       const bunIndex = state.selectedIngredients.findIndex((ingredient) => ingredient.type === "bun");
       if (bunIndex !== -1) {
@@ -63,16 +82,19 @@ export const burgerConstructorSlice = createSlice({
       }
       console.log("store: There are no buns in selectedIngredients");
     },
+
     openIngredientPopup: (state, action) => {
       if (action.payload) {
         state.ingredientPopup.content = action.payload;
         state.ingredientPopup.isOpen = true;
       }
     },
+
     closeIngredientPopup: (state, action) => {
       state.ingredientPopup.content = null;
       state.ingredientPopup.isOpen = false;
     },
+
     openOrderPopup: (state, action) => {
       console.log(state.orderPopup.isOpen);
       if (action.payload) {
@@ -81,6 +103,7 @@ export const burgerConstructorSlice = createSlice({
         state.orderPopup.number = action.payload.name;
       }
     },
+
     closeOrderPopup: (state, action) => {
       state.orderPopup.isOpen = false;
       state.orderPopup.name = null;

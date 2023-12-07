@@ -9,6 +9,8 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import { useSelector, useDispatch } from "react-redux";
 import { burgerConstructorSlice } from "../../services/store";
 import LoadingIcon from "../LoadingIcon/LoadingIcon";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
   // global
@@ -38,10 +40,12 @@ function App() {
     <>
       {isLoading && <LoadingIcon />}
       <AppHeader />
-      <main className={`${appStyles.body}`}>
-        <BurgerIngredients />
-        <BurgerConstructor />
-      </main>
+      <DndProvider backend={HTML5Backend}>
+        <main className={`${appStyles.body}`}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </main>
+      </DndProvider>
 
       {isIngredientPopupOpen && (
         <Modal closeModal={closeIngredientPopup}>

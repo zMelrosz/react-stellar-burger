@@ -4,6 +4,7 @@ import styles from "./IngredientsContainer.module.css";
 import { useGetIngredientsQuery } from "../../services/api";
 
 const IngredientsContainer = ({ type }) => {
+
   const { data: ingredientsResponce, isError } = useGetIngredientsQuery(); // fetch all ingredients or go to cache
 
   if (isError) {

@@ -4,26 +4,25 @@ import { Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import { ingredientType } from "../../utils/prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { burgerConstructorSlice } from "../../services/store";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import { useDrag } from "react-dnd";
 
-const IngredientCard = ({ ingredientInfo }) => {
+const IngredientCard = ({ingredientInfo}) => {
   const dispatch = useDispatch();
   const selectedIngredients = useSelector((state) => state.burgerConstructor.selectedIngredients); // check selected ingredients
+  const counter = useSelector((state) => state.burgerConstructor.selectedIngredients.filter(ingredient => ingredientInfo.name === ingredient.name)).length;
+
+  const [, dragRef] = useDrag({
+    type: 'ingredient',
+    item: ingredientInfo, 
+  })
 
   const onIngredientClick = (clickedIngredient) => {
     dispatch(burgerConstructorSlice.actions.openIngredientPopup(clickedIngredient))
-
-    if (clickedIngredient.type === "bun" && selectedIngredients.some((ingredient) => ingredient.type === "bun")) {
-      // replace bun check
-      dispatch(burgerConstructorSlice.actions.replaceBun(clickedIngredient));
-    } else {
-      dispatch(burgerConstructorSlice.actions.addIngredient(clickedIngredient));
-    }
   };
 
   return (
-    <div className={styles.card} onClick={() => onIngredientClick(ingredientInfo)}>
-      <Counter count={1} size="default" />
+    <div className={styles.card} onClick={() => onIngredientClick(ingredientInfo) } ref={dragRef}>
+      {counter > 0 ? <Counter count={counter} size="default" /> : null } 
       <img src={ingredientInfo.image} alt={ingredientInfo.name} />
       <Price amount={ingredientInfo.price} />
       <p className="text text_type_main-small">{ingredientInfo.name}</p>

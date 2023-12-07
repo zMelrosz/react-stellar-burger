@@ -7,8 +7,10 @@ import ConstructorIngredientCard from "../ConstructorIngredientCard/ConstructorI
 import PropTypes from "prop-types";
 import { usePostOrderMutation } from "../../services/api";
 import { burgerConstructorSlice } from "../../services/store";
+import { useDrop } from "react-dnd";
 
 const BurgerConstructor = () => {
+
   const dispatch = useDispatch();
   const ingredients = useSelector((state) => state.burgerConstructor.selectedIngredients);
   const totalPrice = useSelector((state) => state.burgerConstructor.totalPrice);
@@ -17,6 +19,21 @@ const BurgerConstructor = () => {
     bun: ingredients.find((item) => item.type === "bun"),
     otherIngredients: ingredients.filter((item) => item.type !== "bun"),
   };
+
+  //DND
+  const [, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop: (ingredient, monitor) => {
+      if(monitor.canDrop()) {
+        console.log(ingredient)
+        if (ingredient.type === "bun" && ingredients.some((ingredient) => ingredient.type === "bun")) {
+          dispatch(burgerConstructorSlice.actions.replaceBun(ingredient));
+        } else {
+          dispatch(burgerConstructorSlice.actions.addIngredient(ingredient));
+        }
+      }
+    }
+  });
 
   // order popup
   const [postOrder] = usePostOrderMutation();
@@ -46,7 +63,7 @@ const BurgerConstructor = () => {
   };
 
   return (
-    <div className={`${styles.burgerConstructor} pt-25 custom-scroll`}>
+    <div className={`${styles.burgerConstructor} pt-25 custom-scroll`} ref={dropRef}>
       {bun && <ConstructorIngredientCard ingredient={bun} isTop={true} />}
       <div className={`${styles.ingredientsScroll} custom-scroll`}>
         {otherIngredients.map((ingredient, index) => (
